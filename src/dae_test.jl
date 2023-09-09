@@ -36,9 +36,11 @@ u0 = rand(2*N_DOF)*10;
 t_step = 25/1e6;
 using BenchmarkTools
 @benchmark solve_cross(diagm(ones(2*N_DOF)), func, u0, t_step, (0, 0.1))
-t, u = solve_cross(diagm(ones(2*N_DOF)), func, u0, t_step, (0, 1));
+@benchmark solve_cross_linear(diagm(ones(2*N_DOF)), A, u0, t_step, (0, 0.1))
+# t, u = solve_cross(diagm(ones(2*N_DOF)), func, u0, t_step, (0, 1));
 
 plot(t, u[1, :])
 
 # plot3D(u[1,:], u[2,:], u[3,:])
+
 

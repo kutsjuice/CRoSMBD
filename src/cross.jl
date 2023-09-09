@@ -29,6 +29,24 @@ function solve_cross(M, F, u0, dt, time_span)
     return t,u
 end
 
+function solve_cross_linear(M, J, u0, dt, time_span)
+    # construct the jacoby matrix of form
+    
+    t = time_span[1]:dt:time_span[2];
+    u = Matrix{Float64}(undef, length(u0), length(t));
+    u[:,1] = u0;
+
+    q = 0.5+im/sqrt(12);
+    
+    for i in 2:length(t)
+        A = M - q*dt*J;
+        F = (J * u[:,i-1])
+        k = A\ F;
+        u[:,i] = u[:,i-1] + dt*real(k);
+    end
+    return t,u
+end
+
 function lorenz(u)
     du = similar(u);
     du[1] = 10.0 * (u[2] - u[1])
